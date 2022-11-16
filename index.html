@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script type="text/javascript">
+
+var person = {
+    first: "Émile",
+    last: "White",
+    email: "M@kropht.com",
+    website: "kropht.com",
+    phone: "07528 434543",
+    location: "Hereford, UK",
+    skills: ["Full Clean UK Driving License","Azure Active Directory", "Hyper-V", "Office 365", "Windows Server", "Cloud Computing", "Adobe Creative Cloud + Adobe Update Server", "McAfee ePolicy Orchestrator", "Windows OS", "Mac OS X", "WSUS", "GPO", "DFS", "Firewall", "Switching", "Routing", "Troubleshooting (Hardware + Software)", "Repairs (Hardware)", "Building of Custom PCs", "First and Second Line Support", "HTML", "CSS", "Javascript"],
+    education: {
+        heading: "Hereford College of Arts, Hereford &mdash; 2017-2021",
+        description: "Studied BA (Hons) Graphic & Media Design: Grade: 2:1.",
+	heading1: "Herefordshire & Ludlow College, Hereford &mdash; 2015-2017",
+        description1: "Studied BTEC Level 3 Extended Diploma in IT: Grade: Distinction Distinction Merit (DDM).",
+    }
+};
+
+var jobs = [
+{
+    start: "November 2021",
+    end: "Present",
+    city: "Hereford",
+    company: "Hereford College of Arts",
+    title: "IT Technician",
+    overview: "Providing first and second line IT support to college and university campus staff and students. My job involves Office 365, Azure Active Directory, Hyper-V, Group Policy, Cloud Computing, Distributed File System, partition managers such as Macrium Reflect, WSUS, Sophos Firewall, Windows Server, routing/switching, repair and troubleshooting of hardware and software issues and backups.",
+    accomplishments: []
+},
+];
+
+var jobs = [
+{
+    start: "November 2021",
+    end: "Present",
+    city: "Hereford",
+    company: "Hereford College of Arts",
+    title: "IT Technician",
+    overview: "Providing first and second line IT support to college and university campus staff and students. My job involves Office 365, Azure Active Directory, Hyper-V, Group Policy, Cloud Computing, Distributed File System, partition managers such as Macrium Reflect, WSUS, Sophos Firewall, Windows Server, routing/switching, repair and troubleshooting of hardware and software issues and backups.",
+    accomplishments: []
+},
+{
+    start: "May 2021",
+    end: "November 2021",
+    city: "Hereford",
+    company: "John Finch Computers",
+    title: "Infrastructure Technician",
+    overview: "Providing first and second line IT support to business and domestic customers. My day to day included repairing, troubleshooting, server maintenance, backups, data recovery, SSD upgrades, Office 365 and Azure Active Directory",
+    accomplishments: []
+},
+{
+    start: "January 2017",
+    end: "March 2021",
+    city: "Hereford",
+    company: "The School Uniform Shop",
+    title: "Sales Assistant",
+    overview: "Standards duties such as restocking, sales, stocktake, maintenance and customer service",
+}
+];
+
+var censoring = true;
+function toggleCensor() {
+    var el = document.getElementById("censor");
+    if (!el) return;
+    for (var i = 0; i < el.childNodes.length; i++) {
+        if (el.childNodes[i].nodeType == 3) {
+            if (el.childNodes[i].nodeValue.match(/^\s*$/)) {
+                continue;
+            }
+            if (censoring) {
+                el.childNodes[i].saved = el.childNodes[i].nodeValue;
+                el.childNodes[i].nodeValue = censor(el.childNodes[i].nodeValue);
+            }
+            else {
+                el.childNodes[i].nodeValue = el.childNodes[i].saved;
+            }
+        }
+    }
+    censoring = !censoring;
+}
+
+function censor(str) {
+    // Phone Number:
+    if (str.match(/.*\d{3}.*\d{4}/)) {
+        return str.replace(/\d/g, "X");
+    }
+    // Email Address:
+    else if (str.match(/[^@]+@[^.]+\.[^.]+/)) {
+        return str.replace(/^([^@]+)/, "xxxxxxxx");
+    }
+    // Generic case (uncensored):
+    return str;
+}
+
+function populate() {
+    var nextNode = document.getElementById("experience").nextSibling;
+    for (var i in jobs) {
+        var job = jobs[i];
+        var h3 = document.createElement("h3");
+        h3.innerHTML = job.title + ", " + job.company + ", " + job.city + ", " + job.start + "-" + job.end;
+        var p = document.createElement("p");
+        p.innerHTML = job.overview;
+        var ul = document.createElement("ul");
+        for (var j in job.accomplishments) {
+            var li = document.createElement("li");
+            li.innerHTML = job.accomplishments[j];
+            ul.appendChild(li);
+        }
+        nextNode.parentNode.insertBefore(h3, nextNode);
+        nextNode.parentNode.insertBefore(p, nextNode);
+        nextNode.parentNode.insertBefore(ul, nextNode);
+    }
+
+    document.getElementById("skills").innerHTML = person.skills.join(", ");
+    document.title = person.first + " " + person.last;
+    var name = document.getElementById("name");
+    name.innerHTML = document.title;
+    name.parentNode.insertBefore(document.createTextNode(person.location), name.nextSibling);
+    var info = document.getElementById("censor");
+    var temp = [person.phone, person.email, person.website];
+    for (var i in temp) {
+        info.appendChild(document.createTextNode(temp[i]));
+        info.appendChild(document.createElement("br"));
+    }
+    document.getElementById("educationHeading").innerHTML = person.education.heading;
+    document.getElementById("educationDescription").innerHTML = person.education.description;
+document.getElementById("educationHeading1").innerHTML = person.education.heading1;
+    document.getElementById("educationDescription1").innerHTML = person.education.description1;
+}
+
+window.onload = function() {
+    populate();
+    document.documentElement.addEventListener("keyup", function(evt) {
+        // shift + ctrl + y
+        if (evt.ctrlKey && evt.shiftKey && (evt.keyCode == 89)) {
+            toggleCensor();
+        }
+    });
+};
+
+</script>
+<style type="text/css">
+  html {
+    font-family: Helvetica, sans-serif;
+    font-size: 12px;
+  }
+  h1, h2, h3, p, ul {
+    margin: 0;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  h2 {
+    margin-top: 1.5em;
+    font-size: 16px;
+    margin-bottom: 0.85em;
+  }
+  h3 {
+    font-size: 14px;
+    margin-bottom: 0.2em;
+  }
+  h3, ul {
+    margin-top: 1.5em;
+  }
+  li {
+    margin-top: 0.25em;
+    line-height: 1.25em;
+  }
+  header {
+      width: 100%;
+  }
+  header + * {
+      padding-top: 1em;
+      clear: both;
+  }
+  header div {
+      float: left;
+      text-align: left;
+  }
+  header div:nth-child(2n) {
+      float: right;
+      text-align: right;
+  }
+</style>
+<style type="text/css" media="screen">
+    body {
+        font-size: 14px;
+        max-width: 700px;
+        margin: 50px auto;
+    }
+</style>
+<style type="text/css" media="print">
+    body {
+        margin: 0.25in 0.5in
+    }
+</style>
+</head>
+<body>
+<header>
+    <div><h1 id="name"></h1><br></div>
+    <div id="censor"></div>
+</header>
+
+<h2 id="experience">EXPERIENCE</h2>
+<!-- Programatically inserted. -->
+
+<h2>EDUCATION</h2>
+<h3 id="educationHeading"></h3>
+<p id="educationDescription"</p>
+<h3 id="educationHeading1"></h3>
+<p id="educationDescription1"></p>
+
+<h2>PRINCIPAL SKILLS</h2>
+<p id="skills"></p>
+</body>
+</html>
+
